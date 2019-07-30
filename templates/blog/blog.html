@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lesson Form{% endblock %}
+
+{% block stylesheet %}
+<link href="{% static "styles/github.css" %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static "highlight.pack.js" %}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'blog' %}">Lessons</a></li>
+{% endblock %}
+{% block content %}
+<h1> Welcome to your kingdom of lesson plans</h1>
+<h4>
+	Load your lesson plans here to help improve the kingdom
+</h4>
+{% if user.is_authenticated %}
+<br>
+	<a href="{% url 'postform' %}" class="btn btn-primary" style="float: right;">Create Lesson</a>
+  {% else %}
+  {% endif %}
+	<br>
+	<h2> Lesson Plans</h2>
+<h3><a href="/blog/{{post.id}}">{{ post.title }}</a></h3>
+	<br>
+	<div class="card-columns">
+    <div>
+			{% for post in object_list %}
+				<div class="card" style="width: 20rem;">
+					<div class="card-body">
+						<h3 class="card-title">{{post.title}}</h3>
+						<h6> {{ post.ls }} <h6>
+							<br>
+						<a href="/blog/{{post.id}}" class="btn btn-primary">Lesson</a>
+					</div>
+          {{ post.get_message_as_markdown }}
+				</div>
+			<br>
+			 {% endfor %}
+    </div>
+	</div>
+
+
+{% endblock %}
